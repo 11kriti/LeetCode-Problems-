@@ -1,45 +1,28 @@
 class Solution {
 public:
-    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        priority_queue<vector<int>>pq;
-        map<int,vector<pair<int,int>>>m;
-        vector<vector<int>>ans;
-        int count =0, width = 0;
-        for(auto i : buildings){
-            m[i[0]].push_back({i[2],i[1]});
-            m[i[1]].push_back({0,0});
-        }
-        for(auto i : m){
-            auto vec = i.second;   
-            for(auto j : vec){
-                if(j.first!=0){
-                    pq.push({j.first, j.second});
-                }    
-            }
-            if(i.first == width){
-                count = 0;
-            }
-            while(!pq.empty() && pq.top()[1]<=i.first){
-                pq.pop();
-            }
-            if(!pq.empty() && pq.top()[0]>count){
-                count = pq.top()[0];
-                width = pq.top()[1];
-                ans.push_back({i.first,count});
-            }
-            else if(count == 0){
-                ans.push_back({i.first, 0});
-            }       
-        }  
-        
-        vector<vector<int>> vec;
-        int prev = -1;
-        for(auto i : ans){
-            if(i[1]!=prev){
-                vec.push_back(i);
-                prev = i[1];
-            }
-        }
-        return vec;
-    }
+    
+        std::vector<std::vector<int>> getSkyline(std::vector<std::vector<int>>& buildings) {
+	std::vector<std::vector<int>> height, result;
+	std::multiset<int> multiset_;
+	int prev = 0, curr = 0;
+	for (std::vector<int>& a : buildings) { 
+		height.push_back({a[0], -a[2]}); 
+		height.push_back({a[1],  a[2]}); 
+	}
+	std::sort(height.begin(), height.end()); 
+	multiset_.insert(0);
+	for (std::vector<int>& a : height) {
+		if (a.back() < 0) {
+			multiset_.insert(-a.back());
+		}
+		else multiset_.erase(multiset_.find(a.back()));
+		curr = *multiset_.rbegin();
+		if (curr != prev) { 
+			result.push_back({a.front(), curr}); 
+			prev = curr; 
+		} 
+	} 
+	return result;
+}
+    
 };
