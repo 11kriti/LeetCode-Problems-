@@ -1,2 +1,3 @@
-# CrackYourInternship
-In this repository, solutions of questions of DSA sheet by Arsh will be updated day to day.
+#LeetCode
+In this repository , all LeetCode Problems is going to be updated
+
